@@ -1,3 +1,4 @@
 import { Sidebar } from "./Sidebar";
+import { VariantForm } from "./VariantForm";
 
-export {Sidebar};
+export {Sidebar, VariantForm};
