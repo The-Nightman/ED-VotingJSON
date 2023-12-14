@@ -1,7 +1,30 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, dialog, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+const fs = require("fs/promises")
 import icon from '../../resources/icon.png?asset'
+
+async function handleFolderOpen() {
+  const { canceled, filePaths } = await dialog.showOpenDialog({
+    properties: ['openFile', 'openDirectory']
+  })
+  if (!canceled) {
+    const parentDir = filePaths[0]
+    try {
+      const conts = fs.readdir(parentDir)
+      const dirs = (await conts).filter((i) => {
+        return i.match(/^(maps|variants)$/)
+      })
+      const maps = await fs.readdir(`${parentDir}/${dirs[0]}`)
+      const variants = await fs.readdir(`${parentDir}/${dirs[1]}`)
+      const data = {variants: variants, maps: maps}
+      return {variants: variants, maps: maps}
+    }
+    catch (error) {
+      return error
+    }
+  }
+}
 
 function createWindow() {
   // Create the browser window.
@@ -12,9 +35,9 @@ function createWindow() {
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
-      nodeIntegration: true,
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      webSecurity: false
     }
   })
 
@@ -49,6 +72,8 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
+
+  ipcMain.handle('dialog:openDirectory', handleFolderOpen)
 
   createWindow()
 
