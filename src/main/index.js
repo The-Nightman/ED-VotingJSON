@@ -1,13 +1,28 @@
 import { app, shell, BrowserWindow, dialog, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import { readdir } from 'fs/promises'
+const fs = require("fs/promises")
 import icon from '../../resources/icon.png?asset'
 
 async function handleFolderOpen() {
-  const { canceled, filePaths } = await dialog.showOpenDialog({});
+  const { canceled, filePaths } = await dialog.showOpenDialog({
+    properties: ['openFile', 'openDirectory']
+  })
   if (!canceled) {
-    return filePaths[0];
+    const parentDir = filePaths[0]
+    try {
+      const conts = fs.readdir(parentDir)
+      const dirs = (await conts).filter((i) => {
+        return i.match(/^(maps|variants)$/)
+      })
+      const maps = await fs.readdir(`${parentDir}/${dirs[0]}`)
+      const variants = await fs.readdir(`${parentDir}/${dirs[1]}`)
+      const data = {variants: variants, maps: maps}
+      return {variants: variants, maps: maps}
+    }
+    catch (error) {
+      return error
+    }
   }
 }
 
@@ -58,7 +73,7 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  ipcMain.handle('dialog:openDirectory', handleFolderOpen);
+  ipcMain.handle('dialog:openDirectory', handleFolderOpen)
 
   createWindow()
 
