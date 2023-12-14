@@ -1,205 +1,100 @@
-body {
-  display: flex;
-  flex-direction: column;
-  font-family:
-    Roboto,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Helvetica Neue',
-    'Segoe UI',
-    'Oxygen',
-    'Ubuntu',
-    'Cantarell',
-    'Open Sans',
-    sans-serif;
-  color: #86a5b1;
-  background-color: #2f3241;
-}
-
 * {
   padding: 0;
   margin: 0;
 }
 
-ul {
+ul, li {
   list-style: none;
 }
 
-code {
-  font-weight: 600;
-  padding: 3px 5px;
-  border-radius: 2px;
-  background-color: #26282e;
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    SF Mono,
-    Menlo,
-    Consolas,
-    Liberation Mono,
-    monospace;
-  font-size: 85%;
+h1 {
+  text-align: center;
+  padding: 1rem;
+  margin-bottom: 3rem;
 }
 
-a {
-  color: #9feaf9;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  outline: none;
-}
-
-a:hover {
-  border-bottom: 1px solid;
-}
-
-.container {
-  flex: 1;
+.sidebar {
   display: flex;
   flex-direction: column;
-  max-width: 840px;
-  margin: 0 auto;
-  padding: 15px 30px 0 30px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 14rem;
+  padding: 4rem 1rem 1rem;
+  border: 1px solid black;
 }
 
-.versions {
-  margin: 0 auto;
-  float: none;
-  clear: both;
-  overflow: hidden;
-  font-family: 'Menlo', 'Lucida Console', monospace;
-  color: #c2f5ff;
-  line-height: 1;
-  transition: all 0.3s;
-}
-
-.versions li {
+.sidebarArrow {
   display: block;
-  float: left;
-  border-right: 1px solid rgba(194, 245, 255, 0.4);
-  padding: 0 20px;
-  font-size: 13px;
-  opacity: 0.8;
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50vh;
+  left: -25%;
+  font-size: 4rem;
+}
+.sidebarArrow path {
+  transform-origin: center;
+  transform: rotate(180deg);
 }
 
-.versions li:last-child {
-  border: none;
+.sidebar h2 {
+  padding-bottom: 0.5rem;
 }
 
-.hero-logo {
-  margin-top: -0.4rem;
-  transition: all 0.3s;
+.sidebarVariants {
+  margin-bottom: 3rem;
 }
 
-@media (max-width: 840px) {
-  .versions {
-    display: none;
-  }
-
-  .hero-logo {
-    margin-top: -1.5rem;
-  }
+.sidebarVariants ul li {
+  margin: 0.2rem 0;
 }
 
-.hero-text {
-  font-weight: 400;
-  color: #c2f5ff;
-  text-align: center;
-  margin-top: -0.5rem;
-  margin-bottom: 10px;
+.sidebarVariants ul li input {
+  margin-right: 0.5rem;
 }
 
-@media (max-width: 660px) {
-  .hero-logo {
-    display: none;
-  }
-
-  .hero-text {
-    margin-top: 20px;
-  }
+.sidebarMaps ul li {
+  margin: 0.2rem 0 0.2rem 1.3rem;
 }
 
-.hero-tagline {
-  text-align: center;
-  margin-bottom: 14px;
+.variantFormContainer {
+  border: 1px solid black;
+  padding: 0.5rem;
 }
 
-.links {
+.variantFormTitleCard {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 24px;
-  font-size: 18px;
-  font-weight: 500;
 }
 
-.links a {
-  font-weight: 500;
+.variantFormTitleCard svg {
+  font-size: xx-large;
+  padding-right: 1rem;
 }
 
-.links .link-item {
-  padding: 0 4px;
+.variantFormContainer form {
+  border: 1px solid black;
+  padding-left: 1rem;
 }
 
-.features {
+.serverOverrideSettings {
   display: flex;
   flex-wrap: wrap;
-  margin: -6px;
 }
 
-.features .feature-item {
-  width: 33.33%;
-  box-sizing: border-box;
-  padding: 6px;
+.serverOverrideSettings input, select {
+  margin: 0.5rem 0.5rem 0.5rem 0;
+}
+.serverOverrideSettings label {
+  margin-right: 2rem;
 }
 
-.features article {
-  background-color: rgba(194, 245, 255, 0.1);
-  border-radius: 8px;
-  box-sizing: border-box;
-  padding: 12px;
-  height: 100%;
+.mapSelection {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.features span {
-  color: #d4e8ef;
-  word-break: break-all;
-}
-
-.features .title {
-  font-size: 17px;
-  font-weight: 500;
-  color: #c2f5ff;
-  line-height: 22px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.features .detail {
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 22px;
-  margin-top: 6px;
-}
-
-@media (max-width: 660px) {
-  .features .feature-item {
-    width: 50%;
-  }
-}
-
-@media (max-width: 480px) {
-  .links {
-    flex-direction: column;
-    line-height: 32px;
-  }
-
-  .links .link-dot {
-    display: none;
-  }
-
-  .features .feature-item {
-    width: 100%;
-  }
+.mapSelection label {
+  width: 33%;
+  margin: 0.5rem 0;
 }
