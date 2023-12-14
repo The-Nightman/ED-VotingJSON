@@ -1,8 +1,100 @@
-body {
-
-}
-
 * {
   padding: 0;
   margin: 0;
+}
+
+ul, li {
+  list-style: none;
+}
+
+h1 {
+  text-align: center;
+  padding: 1rem;
+  margin-bottom: 3rem;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 14rem;
+  padding: 4rem 1rem 1rem;
+  border: 1px solid black;
+}
+
+.sidebarArrow {
+  display: block;
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50vh;
+  left: -25%;
+  font-size: 4rem;
+}
+.sidebarArrow path {
+  transform-origin: center;
+  transform: rotate(180deg);
+}
+
+.sidebar h2 {
+  padding-bottom: 0.5rem;
+}
+
+.sidebarVariants {
+  margin-bottom: 3rem;
+}
+
+.sidebarVariants ul li {
+  margin: 0.2rem 0;
+}
+
+.sidebarVariants ul li input {
+  margin-right: 0.5rem;
+}
+
+.sidebarMaps ul li {
+  margin: 0.2rem 0 0.2rem 1.3rem;
+}
+
+.variantFormContainer {
+  border: 1px solid black;
+  padding: 0.5rem;
+}
+
+.variantFormTitleCard {
+  display: flex;
+}
+
+.variantFormTitleCard svg {
+  font-size: xx-large;
+  padding-right: 1rem;
+}
+
+.variantFormContainer form {
+  border: 1px solid black;
+  padding-left: 1rem;
+}
+
+.serverOverrideSettings {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.serverOverrideSettings input, select {
+  margin: 0.5rem 0.5rem 0.5rem 0;
+}
+.serverOverrideSettings label {
+  margin-right: 2rem;
+}
+
+.mapSelection {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mapSelection label {
+  width: 33%;
+  margin: 0.5rem 0;
 }
