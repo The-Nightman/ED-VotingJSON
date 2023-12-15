@@ -21,7 +21,6 @@ function App() {
           Open Folder
         </button>
         {jsonData.Types.map((i, index) => {
-          console.log(jsonData)
           return (
             <VariantForm
               name={i.displayName}
