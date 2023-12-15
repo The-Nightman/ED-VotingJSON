@@ -21,7 +21,16 @@ function App() {
           Open Folder
         </button>
         {jsonData.Types.map((i, index) => {
-          return <VariantForm name={i.displayName} maps={data.maps} formIndex={index} />
+          console.log(jsonData)
+          return (
+            <VariantForm
+              name={i.displayName}
+              maps={data.maps}
+              formIndex={index}
+              jsonData={jsonData}
+              setJsonData={setJsonData}
+            />
+          )
         })}
       </div>
     </>

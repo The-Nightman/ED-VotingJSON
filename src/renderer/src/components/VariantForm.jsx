@@ -1,7 +1,22 @@
 import { IoIosArrowUp } from 'react-icons/io'
 
-export function VariantForm({ name, maps }) {
+export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
   const teamVals = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
+  const handleOverrides = (e) => {
+    const variantObj = jsonData.Types[formIndex]
+    console.log(variantObj)
+    const { value } = e.target
+    const command = value.slice(0, -1)
+    const index = variantObj.commands.findIndex((i) => i.includes(command))
+    if (variantObj.commands[index].charAt(value.length - 1) == '0') {
+      variantObj.commands[index] = value
+      setJsonData(jsonData)
+    } else {
+      variantObj.commands[index] = `${command} 0`
+      setJsonData(jsonData)
+    }
+  }
 
   return (
     <>
@@ -24,6 +39,7 @@ export function VariantForm({ name, maps }) {
                   name="Sprint Enabled Toggle"
                   id="SprintEnable"
                   value={'Server.SprintEnabled 1'}
+                  onChange={handleOverrides}
                 />
                 Toggle Sprint
               </label>
@@ -33,6 +49,7 @@ export function VariantForm({ name, maps }) {
                   name="Unlimited Sprint Toggle"
                   id="SprintUnlim"
                   value={'Server.UnlimitedSprint 1'}
+                  onChange={handleOverrides}
                 />
                 Toggle Unlimited Sprint
               </label>
@@ -42,6 +59,7 @@ export function VariantForm({ name, maps }) {
                   name="Assassinations Toggle"
                   id="Assass"
                   value={'Server.AssassinationEnabled 1'}
+                  onChange={handleOverrides}
                 />
                 Toggle Assassinations
               </label>
