@@ -7,7 +7,7 @@ function App() {
 
   async function handleFolder() {
     const res = await window.electronAPI.openFolder()
-    if (res !== undefined) {
+    if (Array.isArray(res.maps) && Array.isArray(res.variants)) {
       setData(res)
     }
   }
@@ -20,8 +20,8 @@ function App() {
         <button id="button" onClick={handleFolder}>
           Open Folder
         </button>
-        {jsonData.Types.map((i) => {
-          return <VariantForm name={i.displayName} maps={data.maps}/>
+        {jsonData.Types.map((i, index) => {
+          return <VariantForm name={i.displayName} maps={data.maps} formIndex={index} />
         })}
       </div>
     </>
