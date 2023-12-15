@@ -1,11 +1,12 @@
+import { useState } from 'react'
 import { IoIosArrowUp } from 'react-icons/io'
 
 export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
+  const [teamsEnabled, setTeamsEnabled] = useState(false)
   const teamVals = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
   const handleOverrides = (e) => {
     const variantObj = jsonData.Types[formIndex]
-    console.log(variantObj)
     const { value } = e.target
     const command = value.slice(0, -1)
     const index = variantObj.commands.findIndex((i) => i.includes(command))
@@ -14,6 +15,52 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
       setJsonData(jsonData)
     } else {
       variantObj.commands[index] = `${command} 0`
+      setJsonData(jsonData)
+    }
+  }
+
+  const handleTeamOverrides = (e) => {
+    const variantObj = jsonData.Types[formIndex]
+    const { value } = e.target
+    if (e.target.id === 'TeamsNum') {
+      const teamCount = Number(value)
+      if (teamCount > 1 && teamCount <= 8) {
+        setTeamsEnabled(true)
+        const index = variantObj.commands.findIndex((i) => i.includes('Server.NumberOfTeams'))
+        if (index > -1) {
+          variantObj.commands[index] = `Server.NumberOfTeams ${value}`
+        } else {
+          variantObj.commands.splice(-1, 0, `Server.NumberOfTeams ${value}`)
+        }
+        setJsonData(jsonData)
+      } else {
+        setTeamsEnabled(false)
+        if (variantObj.commands.findIndex((i) => i.includes('Server.NumberOfTeams')) > -1) {
+          if (variantObj.commands.findIndex((i) => i.includes('Server.TeamSize')) > -1) {
+            variantObj.commands.splice(
+              variantObj.commands.findIndex((i) => i.includes('Server.TeamSize')),
+              1
+            )
+          }
+          variantObj.commands.splice(
+            variantObj.commands.findIndex((i) => i.includes('Server.NumberOfTeams')),
+            1
+          )
+        }
+        setJsonData(jsonData)
+      }
+    } else if (e.target.id === 'TeamSize') {
+      if (value > 8) {
+        e.target.value = 8
+      } else if (value < 1) {
+        e.target.value = 1
+      }
+      const index = variantObj.commands.findIndex((i) => i.includes('Server.TeamSize'))
+      if (index > -1) {
+        variantObj.commands[index] = `Server.TeamSize ${value}`
+      } else {
+        variantObj.commands.splice(-1, 0, `Server.TeamSize ${value}`)
+      }
       setJsonData(jsonData)
     }
   }
@@ -65,7 +112,7 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
               </label>
               <label>
                 Number of Teams
-                <select name="Number of Teams" id="TeamsNum">
+                <select name="Number of Teams" id="TeamsNum" on onChange={handleTeamOverrides}>
                   {teamVals.map((i) => {
                     return <option value={i}>{i}</option>
                   })}
@@ -77,10 +124,11 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
                   type="number"
                   name="Team Size"
                   id="TeamSize"
-                  disabled={true}
-                  value={1}
+                  disabled={!teamsEnabled}
+                  placeholder="1"
                   min={1}
                   max={8}
+                  onChange={handleTeamOverrides}
                 />
               </label>
             </div>
