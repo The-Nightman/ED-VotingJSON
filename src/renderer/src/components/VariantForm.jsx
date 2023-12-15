@@ -1,8 +1,7 @@
 import { IoIosArrowUp } from 'react-icons/io'
 
-export function VariantForm() {
+export function VariantForm({ name, maps }) {
   const teamVals = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  const maps = []
 
   return (
     <>
@@ -13,7 +12,7 @@ export function VariantForm() {
             title="collapse"
             aria-label="collapse"
           />
-          <h2>Variant</h2>
+          <h2>{name}</h2>
         </div>
         <form className="variantForm">
           <fieldset>
@@ -60,7 +59,7 @@ export function VariantForm() {
                   type="number"
                   name="Team Size"
                   id="TeamSize"
-                  disabled="true"
+                  disabled={true}
                   value={1}
                   min={1}
                   max={8}
@@ -71,14 +70,14 @@ export function VariantForm() {
           <fieldset>
             <legend>Maps</legend>
             <div className="mapSelection">
-            {maps.map((i) => {
-              return (
-                <label>
-                  <input type="checkbox" name={i} id={i} value={i} />
-                  {i}
-                </label>
-              )
-            })}
+              {maps.map((i) => {
+                return (
+                  <label>
+                    <input type="checkbox" name={i} id={i} value={i} />
+                    {i}
+                  </label>
+                )
+              })}
             </div>
           </fieldset>
         </form>

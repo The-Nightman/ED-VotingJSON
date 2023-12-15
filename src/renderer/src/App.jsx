@@ -2,21 +2,26 @@ import { useEffect, useState } from 'react'
 import { Sidebar, VariantForm } from './components'
 
 function App() {
-  const [selectedVariants, setSelectedVariants] = useState([])
+  const [data, setData] = useState({ maps: [], variants: [] })
+  const [jsonData, setJsonData] = useState({ Maps: [], Types: [] })
 
-    async function handleFolder() {
-      const filePath = await window.electronAPI.openFolder()
-      console.log(filePath)
+  async function handleFolder() {
+    const res = await window.electronAPI.openFolder()
+    if (res !== undefined) {
+      setData(res)
     }
+  }
 
   return (
     <>
       <h1>ElDewrito Voting JSON Builder</h1>
-      <button id='button' onClick={handleFolder}>open folder</button>
-      <Sidebar />
+      <Sidebar data={data} jsonData={jsonData} setJsonData={setJsonData} />
       <div className="container">
-        {selectedVariants.map((i) => {
-          return <VariantForm />
+        <button id="button" onClick={handleFolder}>
+          Open Folder
+        </button>
+        {jsonData.Types.map((i) => {
+          return <VariantForm name={i.displayName} maps={data.maps}/>
         })}
       </div>
     </>

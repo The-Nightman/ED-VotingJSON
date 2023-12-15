@@ -17,7 +17,6 @@ async function handleFolderOpen() {
       })
       const maps = await fs.readdir(`${parentDir}/${dirs[0]}`)
       const variants = await fs.readdir(`${parentDir}/${dirs[1]}`)
-      const data = {variants: variants, maps: maps}
       return {variants: variants, maps: maps}
     }
     catch (error) {
