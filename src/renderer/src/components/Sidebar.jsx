@@ -74,6 +74,7 @@ export function Sidebar({ data, jsonData, setJsonData }) {
                           <input
                             type="checkbox"
                             name={`checkbox_${i}`}
+                            className="checkbox"
                             value={i}
                             onChange={handleSelectVariants}
                           />

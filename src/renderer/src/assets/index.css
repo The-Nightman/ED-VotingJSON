@@ -1,6 +1,13 @@
+@font-face {
+  font-family: 'MenuFont';
+  src: url('../assets/ConduitITCRegular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 * {
-  padding: 0;
-  margin: 0;
+  font-family: "MenuFont", sans-serif;
+  color: #a3bbd8;
 }
 
 body::-webkit-scrollbar {
@@ -17,6 +24,62 @@ h1 {
   margin-bottom: 3rem;
 }
 
+.background {
+  position: fixed;
+  top: 0;
+  right: -150px;
+  z-index: -1;
+  height: 100vh;
+}
+
+button {
+  background-color: rgb(0, 84, 180);
+  border: none;
+  color: a3bbd8;
+  padding: 0.6rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.5rem;
+  font-weight: 550;
+  transition-duration: 0.2s;
+}
+
+button:hover {
+  background-color: rgb(150, 62, 21);
+  transition-duration: 0.2s;
+}
+
+button:active {
+  background-color: rgb(83, 34, 12);
+}
+
+input, select, textarea, option{
+  color: black;
+}
+
+#TeamsNum {
+  font-size: medium;
+  text-align: center;
+}
+
+#TeamSize {
+font-size: medium;
+text-align: center;
+}
+
+.openFolder {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.saveJson {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -26,7 +89,8 @@ h1 {
   height: 100vh;
   width: 14rem;
   padding: 4rem 0 1rem 1rem;
-  border: 1px solid black;
+  background: rgb(0,76,180);
+  background: linear-gradient(180deg, rgba(0,76,180,0.4009804605435925) 0%, rgba(0,15,24,0.6522409647452731) 77%); 
 }
 
 .sidebarContainer {
@@ -36,17 +100,16 @@ h1 {
 }
 
 .sidebarContainer::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
 }
 
 .sidebarContainer::-webkit-scrollbar-track {
-  background: orange;
+background: none;
 }
 
 .sidebarContainer::-webkit-scrollbar-thumb {
-  background-color: blue;
+  background-color: #a3bbd8;
   border-radius: 20px;
-  border: 3px solid orange;
 }
 
 .sidebarArrowCont {
@@ -81,7 +144,6 @@ h1 {
 }
 
 .variantFormContainer {
-  border: 1px solid black;
   padding: 0.5rem;
 }
 
@@ -95,7 +157,6 @@ h1 {
 }
 
 .variantFormContainer form {
-  border: 1px solid black;
   padding-left: 1rem;
 }
 
@@ -119,4 +180,8 @@ h1 {
 .mapSelection label {
   width: 33%;
   margin: 0.5rem 0;
+}
+
+fieldset {
+  border: 0;
 }
