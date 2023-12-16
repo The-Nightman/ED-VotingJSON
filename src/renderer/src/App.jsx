@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Sidebar, VariantForm } from './components'
+import background from '../src/assets/background.webm'
 
 function App() {
   const [data, setData] = useState({ maps: [], variants: [] })
@@ -20,6 +21,9 @@ function App() {
 
   return (
     <>
+      <video autoPlay loop muted className="background">
+        <source src={background} type="video/webm" />
+      </video>
       <h1>ElDewrito Voting JSON Builder</h1>
       <Sidebar data={data} jsonData={jsonData} setJsonData={setJsonData} />
       <div className="container">

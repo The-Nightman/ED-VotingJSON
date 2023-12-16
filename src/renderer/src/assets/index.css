@@ -17,6 +17,14 @@ h1 {
   margin-bottom: 3rem;
 }
 
+.background {
+  position: fixed;
+  top: 0;
+  right: -150px;
+  z-index: -1;
+  height: 100vh;
+}
+
 .sidebar {
   display: flex;
   flex-direction: column;
