@@ -9,7 +9,21 @@ An Electron based desktop application with React
 ED Voting Json Builder is a tool designed for ElDewrito server hosts to quickly and easily build a valid voting.json file for their server playlist rotation.
 
 ## Minor Warning
+
 running the app installer for the first time may trigger your antivirus, this is a false alert due to the app not being signed, if you have used other electron applications such as the r2modman mod manager this is the same issue. The application is safe but if you feel more comfortable creating your own distributable feel free to fork the repo and either add `workflow_dispatch:` to release.yaml between lines 3 and 4 or create a new branch with the name prefix `releases/` and push to run the workflow.
+
+## How To Use
+
+1. Click the open folder button in the top left corner to open a select directory dialog and navigate to your ElDewrito install folder and select the mods folder that should contain 2 folders named `maps` and `variants` respectively.
+ - the end of this filepath should be `.../Eldewrito 0.6/mods`
+
+2. Open the sidebar on the right of the application and select the checkboxes that apply to the gamemodes you want in your rotation.
+
+3. Close the sidebar and in the main area of the app you will see a list of selected gamemodes and options for each, select the server overrides you wish to apply to that gamemode and then select the maps you wish to play.
+
+4. Once you are happy with your rotation click the save button in the top right of the app and save the `voting.json` file if the `.../Eldewrito 0.6/mods/server` folder.
+
+5. You should now be able to launch your server with your new playlist rotation in your `voting.json` file.
 
 ## Features
 
