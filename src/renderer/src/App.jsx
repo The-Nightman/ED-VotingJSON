@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Sidebar, VariantForm } from './components'
 import background from '../src/assets/background.webm'
 
@@ -11,13 +11,16 @@ function App() {
     if (Array.isArray(res.maps) && Array.isArray(res.variants)) {
       setData(res)
     }
-    const mapObjects = data.maps.map((i) => ({ displayName: i, mapName: i }))
-    setJsonData({ ...jsonData, Maps: mapObjects })
   }
 
   async function handleSave() {
     const res = await window.electronAPI.saveFile(jsonData)
   }
+
+  useEffect(()=>{
+    const mapObjects = data.maps.map((i) => ({ displayName: i, mapName: i }))
+    setJsonData({ ...jsonData, Maps: mapObjects })
+  },[data])
 
   return (
     <>
