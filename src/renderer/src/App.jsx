@@ -1,22 +1,51 @@
 import { useEffect, useState } from 'react'
 import { Sidebar, VariantForm } from './components'
+import background from '../src/assets/background.webm'
 
 function App() {
-  const [selectedVariants, setSelectedVariants] = useState([])
+  const [data, setData] = useState({ maps: [], variants: [] })
+  const [jsonData, setJsonData] = useState({ Maps: [], Types: [] })
 
-    async function handleFolder() {
-      const filePath = await window.electronAPI.openFolder()
-      console.log(filePath)
+  async function handleFolder() {
+    const res = await window.electronAPI.openFolder()
+    if (Array.isArray(res.maps) && Array.isArray(res.variants)) {
+      setData(res)
     }
+  }
+
+  async function handleSave() {
+    const res = await window.electronAPI.saveFile(jsonData)
+  }
+
+  useEffect(()=>{
+    const mapObjects = data.maps.map((i) => ({ displayName: i, mapName: i }))
+    setJsonData({ ...jsonData, Maps: mapObjects })
+  },[data])
 
   return (
     <>
+      <video autoPlay loop muted className="background">
+        <source src={background} type="video/webm" />
+      </video>
       <h1>ElDewrito Voting JSON Builder</h1>
-      <button id='button' onClick={handleFolder}>open folder</button>
-      <Sidebar />
+      <Sidebar data={data} jsonData={jsonData} setJsonData={setJsonData} />
       <div className="container">
-        {selectedVariants.map((i) => {
-          return <VariantForm />
+        <button id="button" className="openFolder" onClick={handleFolder}>
+          Open Folder
+        </button>
+        <button id="button" className="saveJson" onClick={handleSave}>
+          Save JSON
+        </button>
+        {jsonData.Types.map((i, index) => {
+          return (
+            <VariantForm
+              name={i.displayName}
+              maps={data.maps}
+              formIndex={index}
+              jsonData={jsonData}
+              setJsonData={setJsonData}
+            />
+          )
         })}
       </div>
     </>
