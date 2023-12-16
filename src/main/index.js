@@ -1,7 +1,7 @@
 import { app, shell, BrowserWindow, dialog, ipcMain } from 'electron'
-import { join } from 'path'
+import path, { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-const fs = require("fs/promises")
+const fs = require('fs/promises')
 import icon from '../../resources/icon.png?asset'
 
 async function handleFolderOpen() {
@@ -17,9 +17,30 @@ async function handleFolderOpen() {
       })
       const maps = await fs.readdir(`${parentDir}/${dirs[0]}`)
       const variants = await fs.readdir(`${parentDir}/${dirs[1]}`)
-      return {variants: variants, maps: maps}
+      return { variants: variants, maps: maps }
+    } catch (error) {
+      return error
     }
-    catch (error) {
+  }
+}
+
+async function handleSave(event, data) {
+  const { canceled, filePath } = await dialog.showSaveDialog({
+    title: 'Select the File Path to Save',
+    defaultPath: path.join(__dirname, './voting.json'),
+    buttonLabel: 'Save JSON',
+    filters: [
+      {
+        name: 'Json Files',
+        extensions: ['json']
+      },
+    ],
+    properties: []
+  })
+  if (!canceled) {
+    try {
+      await fs.writeFile(filePath, JSON.stringify(data, null, 2))
+    } catch (error) {
       return error
     }
   }
@@ -73,6 +94,7 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('dialog:openDirectory', handleFolderOpen)
+  ipcMain.handle('dialog:saveFile', handleSave)
 
   createWindow()
 

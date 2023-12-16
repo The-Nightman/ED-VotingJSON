@@ -86,11 +86,11 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
     <>
       <div className="variantFormContainer">
         <div className="variantFormTitleCard">
-          <IoIosArrowUp
+          {/* <IoIosArrowUp
             className="variantFormCollapseButton"
             title="collapse"
             aria-label="collapse"
-          />
+          /> */}
           <h2>{name}</h2>
         </div>
         <form className="variantForm">
