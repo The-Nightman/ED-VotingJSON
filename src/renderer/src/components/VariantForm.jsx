@@ -102,6 +102,7 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
                   type="checkbox"
                   name="Sprint Enabled Toggle"
                   id="SprintEnable"
+                  className="checkbox"
                   value={'Server.SprintEnabled 1'}
                   onChange={handleOverrides}
                 />
@@ -112,6 +113,7 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
                   type="checkbox"
                   name="Unlimited Sprint Toggle"
                   id="SprintUnlim"
+                  className="checkbox"
                   value={'Server.UnlimitedSprint 1'}
                   onChange={handleOverrides}
                 />
@@ -122,6 +124,7 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
                   type="checkbox"
                   name="Assassinations Toggle"
                   id="Assass"
+                  className="checkbox"
                   value={'Server.AssassinationEnabled 1'}
                   onChange={handleOverrides}
                 />
@@ -156,7 +159,7 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
               {maps.map((i) => {
                 return (
                   <label>
-                    <input type="checkbox" name={i} id={i} value={i} onChange={handleMaps} />
+                    <input type="checkbox" className="checkbox" name={i} id={i} value={i} onChange={handleMaps} />
                     {i}
                   </label>
                 )

@@ -30,10 +30,10 @@ function App() {
       <h1>ElDewrito Voting JSON Builder</h1>
       <Sidebar data={data} jsonData={jsonData} setJsonData={setJsonData} />
       <div className="container">
-        <button id="button" onClick={handleFolder}>
+        <button id="button" className="openFolder" onClick={handleFolder}>
           Open Folder
         </button>
-        <button id="button" onClick={handleSave}>
+        <button id="button" className="saveJson" onClick={handleSave}>
           Save JSON
         </button>
         {jsonData.Types.map((i, index) => {

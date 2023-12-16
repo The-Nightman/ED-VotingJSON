@@ -1,0 +1,5 @@
+# ElDewrito server ban list
+# Players matching the filters in this file will not be allowed to connect to your server.
+
+# IPv4 address bans
+# Format: ip XXX.XXX.XXX.XXX
