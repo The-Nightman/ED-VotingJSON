@@ -10,6 +10,12 @@ function App() {
     if (Array.isArray(res.maps) && Array.isArray(res.variants)) {
       setData(res)
     }
+    const mapObjects = data.maps.map((i) => ({ displayName: i, mapName: i }))
+    setJsonData({ ...jsonData, Maps: mapObjects })
+  }
+
+  async function handleSave() {
+    const res = await window.electronAPI.saveFile(jsonData)
   }
 
   return (
@@ -19,6 +25,9 @@ function App() {
       <div className="container">
         <button id="button" onClick={handleFolder}>
           Open Folder
+        </button>
+        <button id="button" onClick={handleSave}>
+          Save JSON
         </button>
         {jsonData.Types.map((i, index) => {
           return (
