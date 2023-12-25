@@ -3,20 +3,29 @@ import { IoIosArrowUp } from 'react-icons/io'
 
 export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
   const [teamsEnabled, setTeamsEnabled] = useState(false)
+  const [formData, setFormData] = useState({
+    displayName: name,
+    typeName: name,
+    commands: [
+      'Server.SprintEnabled 0',
+      'Server.UnlimitedSprint 0',
+      'Server.AssassinationEnabled 0'
+    ],
+    SpecificMaps: []
+  })
   const teamVals = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
   const handleOverrides = (e) => {
-    const variantObj = jsonData.Types[formIndex]
     const { value } = e.target
     const command = value.slice(0, -1)
-    const index = variantObj.commands.findIndex((i) => i.includes(command))
-    if (variantObj.commands[index].charAt(value.length - 1) == '0') {
-      variantObj.commands[index] = value
-      setJsonData(jsonData)
-    } else {
-      variantObj.commands[index] = `${command} 0`
-      setJsonData(jsonData)
-    }
+    const index = formData.commands.findIndex((i) => i.includes(command))
+    const overridesArr = formData.commands.map((item, i) => {
+      if (i !== index) {
+        return item
+      }
+      return formData.commands[index].charAt(value.length - 1) == '0' ? value : `${command}0`
+    })
+    setFormData({ ...formData, commands: overridesArr })
   }
 
   const handleTeamOverrides = (e) => {
@@ -82,6 +91,10 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
     }
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+  }
+
   return (
     <>
       <div className="variantFormContainer">
@@ -93,7 +106,8 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
           /> */}
           <h2>{name}</h2>
         </div>
-        <form className="variantForm">
+        <form className="variantForm" onSubmit={handleSubmit}>
+          <button type="submit">Build</button>
           <fieldset>
             <legend>Server Overrides</legend>
             <div className="serverOverrideSettings">
@@ -132,9 +146,13 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
               </label>
               <label>
                 Number of Teams
-                <select name="Number of Teams" id="TeamsNum" on onChange={handleTeamOverrides}>
-                  {teamVals.map((i) => {
-                    return <option value={i}>{i}</option>
+                <select name="Number of Teams" id="TeamsNum" onChange={handleTeamOverrides}>
+                  {teamVals.map((i, index) => {
+                    return (
+                      <option key={index} value={i}>
+                        {i}
+                      </option>
+                    )
                   })}
                 </select>
               </label>
@@ -159,7 +177,14 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
               {maps.map((i) => {
                 return (
                   <label>
-                    <input type="checkbox" className="checkbox" name={i} id={i} value={i} onChange={handleMaps} />
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      name={i}
+                      id={i}
+                      value={i}
+                      onChange={handleMaps}
+                    />
                     {i}
                   </label>
                 )
