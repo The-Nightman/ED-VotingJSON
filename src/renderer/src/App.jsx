@@ -23,13 +23,42 @@ function App() {
     setJsonData({ ...jsonData, Maps: mapObjects })
   }, [data])
 
+  const handleBuildVariant = (formData) => {
+    const index = jsonData.Types.findIndex((i) => i.typeName === formData.typeName)
+    if (index > -1) {
+      const updatedTypes = jsonData.Types.map((item, i) => {
+        if (i !== index) {
+          return item
+        }
+        return formData
+      })
+      setJsonData(({ ...prevState }) => {
+        return {
+          ...prevState,
+          Types: updatedTypes
+        }
+      })
+    } else {
+      setJsonData(({ ...prevState }) => {
+        return {
+          ...prevState,
+          Types: [...prevState.Types, formData]
+        }
+      })
+    }
+  }
+
   return (
     <>
       <video autoPlay loop muted className="background">
         <source src={background} type="video/webm" />
       </video>
       <h1>ElDewrito Voting JSON Builder</h1>
-      <Sidebar data={data} selectedVariants={selectedVariants} setSelectedVariants={setSelectedVariants} />
+      <Sidebar
+        data={data}
+        selectedVariants={selectedVariants}
+        setSelectedVariants={setSelectedVariants}
+      />
       <div className="container">
         <button id="button" className="openFolder" onClick={handleFolder}>
           Open Folder
@@ -44,8 +73,7 @@ function App() {
               name={i}
               maps={data.maps}
               formIndex={index}
-              jsonData={jsonData}
-              setJsonData={setJsonData}
+              addToJson={handleBuildVariant}
             />
           )
         })}
