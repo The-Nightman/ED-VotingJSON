@@ -58,6 +58,8 @@ function App() {
         data={data}
         selectedVariants={selectedVariants}
         setSelectedVariants={setSelectedVariants}
+        jsonData={jsonData}
+        setJsonData={setJsonData}
       />
       <div className="container">
         <button id="button" className="openFolder" onClick={handleFolder}>

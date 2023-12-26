@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { IoIosArrowBack } from 'react-icons/io'
 import { AnimatePresence, motion } from 'framer-motion'
 
-export function Sidebar({ data, selectedVariants, setSelectedVariants }) {
+export function Sidebar({ data, selectedVariants, setSelectedVariants, jsonData, setJsonData }) {
   const { maps, variants } = data
 
   const [menuState, setMenuState] = useState(false)
@@ -22,6 +22,7 @@ export function Sidebar({ data, selectedVariants, setSelectedVariants }) {
     const { value } = e.target
     if (selectedVariants.findIndex((i) => i === value) > -1) {
       setSelectedVariants(selectedVariants.filter((i) => i !== value))
+      setJsonData({ ...jsonData, Types: jsonData.Types.filter((i) => i.typeName !== value) })
     } else {
       setSelectedVariants([...selectedVariants, value])
     }
@@ -77,9 +78,9 @@ export function Sidebar({ data, selectedVariants, setSelectedVariants }) {
               <div className="sidebarMaps">
                 <h2>MAPS</h2>
                 <ul>
-                  {maps.map((i) => {
+                  {maps.map((i, index) => {
                     return (
-                      <li>
+                      <li key={index}>
                         <p>{i}</p>
                       </li>
                     )
