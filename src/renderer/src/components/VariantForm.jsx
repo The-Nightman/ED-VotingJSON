@@ -29,34 +29,30 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
   }
 
   const handleTeamOverrides = (e) => {
-    const variantObj = jsonData.Types[formIndex]
     const { value } = e.target
     if (e.target.id === 'TeamsNum') {
       const teamCount = Number(value)
       if (teamCount > 1 && teamCount <= 8) {
         setTeamsEnabled(true)
-        const index = variantObj.commands.findIndex((i) => i.includes('Server.NumberOfTeams'))
+        const index = formData.commands.findIndex((i) => i.includes('Server.NumberOfTeams'))
         if (index > -1) {
-          variantObj.commands[index] = `Server.NumberOfTeams ${value}`
+          const overridesArr = formData.commands.map((item, i) => {
+            if (i !== index) {
+              return item
+            }
+            return `Server.NumberOfTeams ${value}`
+          })
+          setFormData({ ...formData, commands: overridesArr })
         } else {
-          variantObj.commands.splice(-1, 0, `Server.NumberOfTeams ${value}`)
+          const overridesArr = [...formData.commands, `Server.NumberOfTeams ${value}`]
+          setFormData({ ...formData, commands: overridesArr })
         }
-        setJsonData(jsonData)
       } else {
         setTeamsEnabled(false)
-        if (variantObj.commands.findIndex((i) => i.includes('Server.NumberOfTeams')) > -1) {
-          if (variantObj.commands.findIndex((i) => i.includes('Server.TeamSize')) > -1) {
-            variantObj.commands.splice(
-              variantObj.commands.findIndex((i) => i.includes('Server.TeamSize')),
-              1
-            )
-          }
-          variantObj.commands.splice(
-            variantObj.commands.findIndex((i) => i.includes('Server.NumberOfTeams')),
-            1
-          )
-        }
-        setJsonData(jsonData)
+        const overridesArr = formData.commands.filter(
+          (i) => !i.includes('NumberOfTeams') && !i.includes('TeamSize')
+        )
+        setFormData({ ...formData, commands: overridesArr })
       }
     } else if (e.target.id === 'TeamSize') {
       if (value > 8) {
@@ -64,13 +60,19 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
       } else if (value < 1) {
         e.target.value = 1
       }
-      const index = variantObj.commands.findIndex((i) => i.includes('Server.TeamSize'))
+      const index = formData.commands.findIndex((i) => i.includes('Server.TeamSize'))
+      let overridesArr = []
       if (index > -1) {
-        variantObj.commands[index] = `Server.TeamSize ${value}`
+        overridesArr = formData.commands.map((item, i) => {
+          if (i !== index) {
+            return item
+          }
+          return `Server.TeamSize ${value}`
+        })
       } else {
-        variantObj.commands.splice(-1, 0, `Server.TeamSize ${value}`)
+        overridesArr = [...formData.commands, `Server.TeamSize ${value}`]
       }
-      setJsonData(jsonData)
+      setFormData({ ...formData, commands: overridesArr })
     }
   }
 
