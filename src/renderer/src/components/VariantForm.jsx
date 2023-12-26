@@ -77,19 +77,18 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
   }
 
   const handleMaps = (e) => {
-    let variantObj = jsonData.Types[formIndex]
     const { value } = e.target
     const mapObj = {
       displayName: value,
       mapName: value
     }
-    const index = variantObj.SpecificMaps.findIndex((i) => i.mapName === value)
+    const index = formData.SpecificMaps.findIndex((i) => i.mapName === value)
     if (index > -1) {
-      variantObj.SpecificMaps.splice(index, 1)
-      setJsonData(jsonData)
+      const mapsArr = formData.SpecificMaps.filter((i) => i.mapName !== value)
+      setFormData({ ...formData, SpecificMaps: mapsArr })
     } else {
-      variantObj.SpecificMaps.splice(-1, 0, mapObj)
-      setJsonData(jsonData)
+      const mapsArr = [...formData.SpecificMaps, mapObj]
+      setFormData({ ...formData, SpecificMaps: mapsArr })
     }
   }
 
