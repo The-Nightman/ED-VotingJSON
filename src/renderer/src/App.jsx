@@ -14,13 +14,13 @@ function App() {
   }
 
   async function handleSave() {
-    const res = await window.electronAPI.saveFile(jsonData)
+    await window.electronAPI.saveFile(jsonData)
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     const mapObjects = data.maps.map((i) => ({ displayName: i, mapName: i }))
     setJsonData({ ...jsonData, Maps: mapObjects })
-  },[data])
+  }, [data])
 
   return (
     <>
@@ -39,6 +39,7 @@ function App() {
         {jsonData.Types.map((i, index) => {
           return (
             <VariantForm
+              key={index}
               name={i.displayName}
               maps={data.maps}
               formIndex={index}
