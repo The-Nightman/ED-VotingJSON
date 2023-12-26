@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { IoIosArrowUp } from 'react-icons/io'
 
-export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
+export function VariantForm({ name, maps }) {
   const [teamsEnabled, setTeamsEnabled] = useState(false)
   const [formData, setFormData] = useState({
     displayName: name,
@@ -98,17 +98,19 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
 
   return (
     <>
-      <div className="variantFormContainer">
+      <form className="variantFormContainer" onSubmit={handleSubmit}>
         <div className="variantFormTitleCard">
-          {/* <IoIosArrowUp
+          <IoIosArrowUp
             className="variantFormCollapseButton"
             title="collapse"
             aria-label="collapse"
-          /> */}
-          <h2>{name}</h2>
+          />
+          <div className="variantFormName">
+            <h2>{name}</h2>
+            <button type="submit">OK</button>
+          </div>
         </div>
-        <form className="variantForm" onSubmit={handleSubmit}>
-          <button type="submit">Build</button>
+        <div className="variantForm">
           <fieldset>
             <legend>Server Overrides</legend>
             <div className="serverOverrideSettings">
@@ -192,8 +194,8 @@ export function VariantForm({ name, maps, formIndex, jsonData, setJsonData }) {
               })}
             </div>
           </fieldset>
-        </form>
-      </div>
+        </div>
+      </form>
     </>
   )
 }

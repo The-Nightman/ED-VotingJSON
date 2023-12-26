@@ -149,6 +149,20 @@ background: none;
 
 .variantFormTitleCard {
   display: flex;
+  align-items: center;
+}
+
+.variantFormName {
+  display: flex;
+  width: 90%;
+  height: auto;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.variantFormName button {
+  height: fit-content;
 }
 
 .variantFormTitleCard svg {
@@ -156,7 +170,7 @@ background: none;
   padding-right: 1rem;
 }
 
-.variantFormContainer form {
+.variantForm {
   padding-left: 1rem;
 }
 
