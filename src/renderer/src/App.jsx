@@ -10,6 +10,8 @@ function App() {
   const handleFolder = async () => {
     const res = await window.electronAPI.openFolder()
     if (Array.isArray(res.maps) && Array.isArray(res.variants)) {
+      setSelectedVariants([])
+      setJsonData({ Types: [] })
       setData(res)
     }
   }
