@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { IoIosArrowUp } from 'react-icons/io'
 
-export function VariantForm({ name, maps }) {
+export function VariantForm({ name, maps, addToJson }) {
   const [teamsEnabled, setTeamsEnabled] = useState(false)
   const [formData, setFormData] = useState({
     displayName: name,
@@ -94,6 +94,7 @@ export function VariantForm({ name, maps }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    addToJson(formData)
   }
 
   return (
@@ -177,9 +178,9 @@ export function VariantForm({ name, maps }) {
           <fieldset>
             <legend>Maps</legend>
             <div className="mapSelection">
-              {maps.map((i) => {
+              {maps.map((i, index) => {
                 return (
-                  <label>
+                  <label key={index}>
                     <input
                       type="checkbox"
                       className="checkbox"
