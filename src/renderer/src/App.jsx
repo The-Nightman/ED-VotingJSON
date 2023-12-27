@@ -1,27 +1,27 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Sidebar, VariantForm } from './components'
 import background from '../src/assets/background.webm'
 
 function App() {
   const [data, setData] = useState({ maps: [], variants: [] })
   const [selectedVariants, setSelectedVariants] = useState([])
-  const [jsonData, setJsonData] = useState({ Maps: [], Types: [] })
+  const [jsonData, setJsonData] = useState({ Types: [] })
 
-  async function handleFolder() {
+  const handleFolder = async () => {
     const res = await window.electronAPI.openFolder()
     if (Array.isArray(res.maps) && Array.isArray(res.variants)) {
       setData(res)
     }
   }
 
-  async function handleSave() {
-    await window.electronAPI.saveFile(jsonData)
+  const handleSave = () => {
+    const selectedMaps = jsonData.Types.flatMap((variant) => variant.SpecificMaps)
+    .filter((obj, index, self) =>
+      index === self.findIndex((t) => (t.mapName === obj.mapName))
+    );
+    const votingJson = { Maps: selectedMaps, ...jsonData }
+    window.electronAPI.saveFile(votingJson)
   }
-
-  useEffect(() => {
-    const mapObjects = data.maps.map((i) => ({ displayName: i, mapName: i }))
-    setJsonData({ ...jsonData, Maps: mapObjects })
-  }, [data])
 
   const handleBuildVariant = (formData) => {
     const index = jsonData.Types.findIndex((i) => i.typeName === formData.typeName)
