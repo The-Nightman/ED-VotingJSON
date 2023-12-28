@@ -196,10 +196,11 @@ option {
 
 .variantFormTitleCard svg {
   font-size: xx-large;
-  padding-right: 1rem;
+  margin: 0 0.5rem;
 }
 
 .variantForm {
+  padding-top: 0.5rem;
   padding-left: 1rem;
 }
 

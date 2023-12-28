@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { IoIosArrowUp } from 'react-icons/io'
+import { AnimatePresence, motion } from 'framer-motion'
 
 export function VariantForm({ name, maps, addToJson }) {
-  const savedState = JSON.parse(sessionStorage.getItem(`checkboxes${name}`)) || {};
+  const savedState = JSON.parse(sessionStorage.getItem(`checkboxes${name}`)) || {}
   const [checkboxState, setCheckboxState] = useState(savedState)
-  const [collapsed, setCollapsed] = useState(!false)
+  const [collapsed, setCollapsed] = useState(false)
   const [teamsEnabled, setTeamsEnabled] = useState(false)
-  const [teamOverridesState, setTeamOverridesState] = useState({number: 0, size: 1})
+  const [teamOverridesState, setTeamOverridesState] = useState({ number: 0, size: 1 })
   const [formData, setFormData] = useState({
     displayName: name,
     typeName: name,
@@ -19,9 +20,20 @@ export function VariantForm({ name, maps, addToJson }) {
   })
   const teamVals = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
+  const animVariants = {
+    form: {
+      closed: { height: 0, opacity: 0 },
+      open: { height: 'auto', opacity: 1 }
+    },
+    button: {
+      closed: { rotateX: 0 },
+      open: { rotateX: 180 }
+    }
+  }
+
   useEffect(() => {
-    sessionStorage.setItem(`checkboxes${name}`, JSON.stringify(checkboxState));
-  }, [checkboxState]);
+    sessionStorage.setItem(`checkboxes${name}`, JSON.stringify(checkboxState))
+  }, [checkboxState])
 
   const handleOverrides = (e) => {
     const { value, checked } = e.target
@@ -113,108 +125,128 @@ export function VariantForm({ name, maps, addToJson }) {
     <>
       <form className="variantFormContainer" onSubmit={handleSubmit}>
         <div className="variantFormTitleCard">
-          <IoIosArrowUp
-            className="variantFormCollapseButton"
-            title="collapse"
-            aria-label="collapse"
-            onClick={() => setCollapsed(!collapsed)}
-          />
+          <motion.div
+            className="collapseButtonCont"
+            animate={collapsed ? 'open' : 'closed'}
+            variants={animVariants.button}
+            transition={{ ease: 'linear', duration: 0.15 }}
+          >
+            <IoIosArrowUp
+              role="button"
+              tabIndex={0}
+              className="variantFormCollapseButton"
+              title="collapse"
+              aria-label="collapse"
+              onClick={() => setCollapsed(!collapsed)}
+            />
+          </motion.div>
           <div className="variantFormName">
             <h2>{name}</h2>
             <button type="submit">OK</button>
           </div>
         </div>
         {collapsed && (
-        <div className="variantForm">
-          <fieldset>
-            <legend>Server Overrides</legend>
-            <div className="serverOverrideSettings">
-              <label>
-                <input
-                  type="checkbox"
-                  name="Sprint Enabled Toggle"
-                  id="SprintEnable"
-                  className="checkbox"
-                  value={'Server.SprintEnabled 1'}
-                  checked={!!checkboxState['Server.SprintEnabled 1']}
-                  onChange={handleOverrides}
-                />
-                Toggle Sprint
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="Unlimited Sprint Toggle"
-                  id="SprintUnlim"
-                  className="checkbox"
-                  value={'Server.UnlimitedSprint 1'}
-                  checked={!!checkboxState['Server.UnlimitedSprint 1']}
-                  onChange={handleOverrides}
-                />
-                Toggle Unlimited Sprint
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="Assassinations Toggle"
-                  id="Assass"
-                  className="checkbox"
-                  value={'Server.AssassinationEnabled 1'}
-                  checked={!!checkboxState['Server.AssassinationEnabled 1']}
-                  onChange={handleOverrides}
-                />
-                Toggle Assassinations
-              </label>
-              <label>
-                Number of Teams
-                <select name="Number of Teams" id="TeamsNum" value={teamOverridesState.number} onChange={handleTeamOverrides}>
-                  {teamVals.map((i, index) => {
-                    return (
-                      <option key={index} value={i}>
-                        {i}
-                      </option>
-                    )
-                  })}
-                </select>
-              </label>
-              <label>
-                Team Size
-                <input
-                  type="number"
-                  name="Team Size"
-                  id="TeamSize"
-                  disabled={!teamsEnabled}
-                  placeholder="1"
-                  min={1}
-                  max={8}
-                  value={teamOverridesState.size}
-                  onChange={handleTeamOverrides}
-                />
-              </label>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend>Maps</legend>
-            <div className="mapSelection">
-              {maps.map((i, index) => {
-                return (
-                  <label key={index}>
-                    <input
-                      type="checkbox"
-                      className="checkbox"
-                      name={i}
-                      id={i}
-                      value={i}
-                      checked={!!checkboxState[i]}
-                      onChange={handleMaps}
-                    />
-                    {i}
-                  </label>
-                )
-              })}
-            </div>
-          </fieldset>
-        </div>
+          <motion.div
+            className="variantForm"
+            animate={collapsed ? 'open' : 'closed'}
+            initial="closed"
+            variants={animVariants.form}
+            transition={{ ease: 'linear', duration: 0.3 }}
+          >
+            <fieldset>
+              <legend>Server Overrides</legend>
+              <div className="serverOverrideSettings">
+                <label>
+                  <input
+                    type="checkbox"
+                    name="Sprint Enabled Toggle"
+                    id="SprintEnable"
+                    className="checkbox"
+                    value={'Server.SprintEnabled 1'}
+                    checked={!!checkboxState['Server.SprintEnabled 1']}
+                    onChange={handleOverrides}
+                  />
+                  Toggle Sprint
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="Unlimited Sprint Toggle"
+                    id="SprintUnlim"
+                    className="checkbox"
+                    value={'Server.UnlimitedSprint 1'}
+                    checked={!!checkboxState['Server.UnlimitedSprint 1']}
+                    onChange={handleOverrides}
+                  />
+                  Toggle Unlimited Sprint
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="Assassinations Toggle"
+                    id="Assass"
+                    className="checkbox"
+                    value={'Server.AssassinationEnabled 1'}
+                    checked={!!checkboxState['Server.AssassinationEnabled 1']}
+                    onChange={handleOverrides}
+                  />
+                  Toggle Assassinations
+                </label>
+                <label>
+                  Number of Teams
+                  <select
+                    name="Number of Teams"
+                    id="TeamsNum"
+                    value={teamOverridesState.number}
+                    onChange={handleTeamOverrides}
+                  >
+                    {teamVals.map((i, index) => {
+                      return (
+                        <option key={index} value={i}>
+                          {i}
+                        </option>
+                      )
+                    })}
+                  </select>
+                </label>
+                <label>
+                  Team Size
+                  <input
+                    type="number"
+                    name="Team Size"
+                    id="TeamSize"
+                    disabled={!teamsEnabled}
+                    placeholder="1"
+                    min={1}
+                    max={8}
+                    value={teamOverridesState.size}
+                    onChange={handleTeamOverrides}
+                  />
+                </label>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>Maps</legend>
+              <div className="mapSelection">
+                {maps.map((i, index) => {
+                  return (
+                    <label key={index}>
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        name={i}
+                        id={i}
+                        value={i}
+                        checked={!!checkboxState[i]}
+                        onChange={handleMaps}
+                      />
+                      {i}
+                    </label>
+                  )
+                })}
+              </div>
+            </fieldset>
+          </motion.div>
         )}
       </form>
     </>
