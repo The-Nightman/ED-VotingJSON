@@ -5,8 +5,13 @@
   font-style: normal;
 }
 
-* {
-  font-family: "MenuFont", sans-serif;
+*{
+  user-select: none;
+  font-size: 1.05rem;
+}
+
+body {
+  font-family: 'MenuFont', sans-serif;
   color: #a3bbd8;
 }
 
@@ -14,7 +19,8 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-ul, li {
+ul,
+li {
   list-style: none;
 }
 
@@ -27,9 +33,10 @@ h1 {
 .background {
   position: fixed;
   top: 0;
-  right: -150px;
+  right: 0;
   z-index: -1;
   height: 100vh;
+  width: max-content;
 }
 
 button {
@@ -40,6 +47,8 @@ button {
   text-align: center;
   text-decoration: none;
   display: inline-block;
+  font-family: 'MenuFont', sans-serif;
+  color: #a3bbd8;
   font-size: 1.5rem;
   font-weight: 550;
   transition-duration: 0.2s;
@@ -54,7 +63,10 @@ button:active {
   background-color: rgb(83, 34, 12);
 }
 
-input, select, textarea, option{
+input,
+select,
+textarea,
+option {
   color: black;
 }
 
@@ -64,8 +76,8 @@ input, select, textarea, option{
 }
 
 #TeamSize {
-font-size: medium;
-text-align: center;
+  font-size: medium;
+  text-align: center;
 }
 
 .openFolder {
@@ -89,8 +101,12 @@ text-align: center;
   height: 100vh;
   width: 14rem;
   padding: 4rem 0 1rem 1rem;
-  background: rgb(0,76,180);
-  background: linear-gradient(180deg, rgba(0,76,180,0.4009804605435925) 0%, rgba(0,15,24,0.6522409647452731) 77%); 
+  background: rgb(0, 76, 180);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 75, 180, 0.603) 0%,
+    rgba(0, 15, 24, 0.726) 77%
+  );
 }
 
 .sidebarContainer {
@@ -104,7 +120,7 @@ text-align: center;
 }
 
 .sidebarContainer::-webkit-scrollbar-track {
-background: none;
+  background: none;
 }
 
 .sidebarContainer::-webkit-scrollbar-thumb {
@@ -147,9 +163,27 @@ background: none;
   padding: 0.5rem;
 }
 
+.variantFormCollapseButton {
+  transition-duration: 0.2s;
+}
+
+.variantFormCollapseButton:hover {
+  color: rgb(150, 62, 21);
+  transition-duration: 0.2s;
+}
+
+.variantFormCollapseButton:active {
+  color: rgb(83, 34, 12);
+}
+
 .variantFormTitleCard {
   display: flex;
   align-items: center;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 75, 180, 0.315) 0%,
+    rgba(0, 15, 24, 0.13) 35%
+  );
 }
 
 .variantFormName {
@@ -167,10 +201,11 @@ background: none;
 
 .variantFormTitleCard svg {
   font-size: xx-large;
-  padding-right: 1rem;
+  margin: 0 0.5rem;
 }
 
 .variantForm {
+  padding-top: 0.5rem;
   padding-left: 1rem;
 }
 
@@ -179,7 +214,8 @@ background: none;
   flex-wrap: wrap;
 }
 
-.serverOverrideSettings input, select {
+.serverOverrideSettings input,
+select {
   margin: 0.5rem 0.5rem 0.5rem 0;
 }
 .serverOverrideSettings label {
@@ -198,4 +234,31 @@ background: none;
 
 fieldset {
   border: 0;
+}
+
+@media (min-aspect-ratio: 1369/770) {
+  .background {
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: auto;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .mapSelection label {
+    width: 25%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .mapSelection label {
+    width: 20%;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .mapSelection label {
+    width: 16.6%;
+  }
 }
