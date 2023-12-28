@@ -21,9 +21,9 @@ running the app installer for the first time may trigger your antivirus, this is
 
 2. Open the sidebar on the right of the application and select the checkboxes that apply to the gamemodes you want in your rotation.
 
-3. Close the sidebar and in the main area of the app you will see a list of selected gamemodes and options for each, select the server overrides you wish to apply to that gamemode and then select the maps you wish to play. 
+3. Close the sidebar and in the main area of the app you will see a list of selected gamemodes and options for each, select the server overrides you wish to apply to that gamemode and then select the maps you wish to play and then click the OK button to the right of the gamemode name. Feel free to repeat this step as many times as needed whenever a change is made. 
 
-4. Once you are happy with your rotation click the save button in the top right of the app and save the `voting.json` file if the `.../Eldewrito 0.6/mods/server` folder.
+4. Once you are happy with your rotation click the save button in the top right of the app and save the `voting.json` file in the `.../Eldewrito 0.6/mods/server` folder.
 
 5. You should now be able to launch your server with your new playlist rotation in your `voting.json` file.
 
@@ -34,15 +34,12 @@ running the app installer for the first time may trigger your antivirus, this is
 - Server override commands built into each variant entry
 
 ## Planned Future Features
-- read/write json functionality to edit already written valid votin.json files
+- read/write json functionality to edit already written valid voting.json files
 
 
 ## Known Issues
 
-- The Maps array in the voting.json may be overpopulated if your `maps` folder contains more maps than you plan on adding to the gamemodes in your voting.json, current work around is either manually removing and readding maps from the `"Maps"` section of your json or making a copy of your `maps` and `variants` folder elsewhere and deleting any maps you do not wish to play before using the app.
-- Background does not scale to fit on full screen, this was an oversight as the background is offset and wasnt specifically intended to be run fullscreen.
-- Sidebar selected gamemodes appear unselected if sidebar is closed and re-opened after adding, this is due to the component being removed from the dom without state being preserved however __gamemodes that were selected are still in selected roation if they are in the main app staging area, selecting them again in the sidebar will remove them__.
-- State mutations, this was an accidental oversight and at the current release it should not be an issue, however this will be fixed in a future update.
+- At the moment there are no known issues, if you happen to find one please open a BUG ticket with the provided template in the issues tab.
 
 ## Recommended IDE Setup For New Forks
 
