@@ -137,6 +137,16 @@ option {
 .sidebarArrow {
   display: block;
   font-size: 4rem;
+  transition-duration: 0.2s;
+}
+
+.sidebarArrow:hover {
+  color: rgb(150, 62, 21);
+  transition-duration: 0.2s;
+}
+
+.sidebarArrow:active {
+  color: rgb(83, 34, 12);
 }
 
 .sidebarHeader {

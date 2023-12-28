@@ -9,8 +9,11 @@ export function Sidebar({ data, selectedVariants, setSelectedVariants, jsonData,
   const [checkboxState, setCheckboxState] = useState(savedState)
 
   useEffect(() => {
+    if (variants.length > 0) {
+      setMenuState(true)
+    }
     sessionStorage.setItem('checkboxes', JSON.stringify(checkboxState))
-  }, [checkboxState])
+  }, [checkboxState, variants])
 
   const animVariants = {
     menu: {
