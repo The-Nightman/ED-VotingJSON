@@ -126,18 +126,18 @@ export function VariantForm({ name, maps, addToJson }) {
       <form className="variantFormContainer" onSubmit={handleSubmit}>
         <div className="variantFormTitleCard">
           <motion.div
+            tabIndex={0}
+            role="button"
             className="collapseButtonCont"
+            title="collapse"
+            aria-label="collapse"
             animate={collapsed ? 'open' : 'closed'}
             variants={animVariants.button}
             transition={{ ease: 'linear', duration: 0.15 }}
+            onClick={() => setCollapsed(!collapsed)}
           >
             <IoIosArrowUp
-              role="button"
-              tabIndex={0}
               className="variantFormCollapseButton"
-              title="collapse"
-              aria-label="collapse"
-              onClick={() => setCollapsed(!collapsed)}
             />
           </motion.div>
           <div className="variantFormName">

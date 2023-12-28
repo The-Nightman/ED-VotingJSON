@@ -5,6 +5,10 @@
   font-style: normal;
 }
 
+*{
+  user-select: none;
+}
+
 body {
   font-family: 'MenuFont', sans-serif;
   color: #a3bbd8;
