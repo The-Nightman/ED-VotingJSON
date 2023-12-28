@@ -4,15 +4,13 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 export function Sidebar({ data, selectedVariants, setSelectedVariants, jsonData, setJsonData }) {
   const { maps, variants } = data
-  
-  const savedState = JSON.parse(localStorage.getItem('checkboxes')) || {};
-
+  const savedState = JSON.parse(sessionStorage.getItem('checkboxes')) || {}
   const [menuState, setMenuState] = useState(false)
   const [checkboxState, setCheckboxState] = useState(savedState)
 
   useEffect(() => {
-    localStorage.setItem('checkboxes', JSON.stringify(checkboxState));
-  }, [checkboxState]);
+    sessionStorage.setItem('checkboxes', JSON.stringify(checkboxState))
+  }, [checkboxState])
 
   const animVariants = {
     menu: {
@@ -26,8 +24,8 @@ export function Sidebar({ data, selectedVariants, setSelectedVariants, jsonData,
   }
 
   const handleSelectVariants = (e) => {
-    const { value } = e.target
-    setCheckboxState({ ...checkboxState, [value]: e.target.checked })
+    const { value, checked } = e.target
+    setCheckboxState({ ...checkboxState, [value]: checked })
     if (selectedVariants.findIndex((i) => i === value) > -1) {
       setSelectedVariants(selectedVariants.filter((i) => i !== value))
       setJsonData({ ...jsonData, Types: jsonData.Types.filter((i) => i.typeName !== value) })
