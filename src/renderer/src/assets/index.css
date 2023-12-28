@@ -5,7 +5,7 @@
   font-style: normal;
 }
 
-* {
+body {
   font-family: 'MenuFont', sans-serif;
   color: #a3bbd8;
 }
@@ -42,6 +42,8 @@ button {
   text-align: center;
   text-decoration: none;
   display: inline-block;
+  font-family: 'MenuFont', sans-serif;
+  color: #a3bbd8;
   font-size: 1.5rem;
   font-weight: 550;
   transition-duration: 0.2s;
@@ -97,8 +99,8 @@ option {
   background: rgb(0, 76, 180);
   background: linear-gradient(
     180deg,
-    rgba(0, 76, 180, 0.4009804605435925) 0%,
-    rgba(0, 15, 24, 0.6522409647452731) 77%
+    rgba(0, 75, 180, 0.603) 0%,
+    rgba(0, 15, 24, 0.726) 77%
   );
 }
 
@@ -156,9 +158,27 @@ option {
   padding: 0.5rem;
 }
 
+.variantFormCollapseButton {
+  transition-duration: 0.2s;
+}
+
+.variantFormCollapseButton:hover {
+  color: rgb(150, 62, 21);
+  transition-duration: 0.2s;
+}
+
+.variantFormCollapseButton:active {
+  color: rgb(83, 34, 12);
+}
+
 .variantFormTitleCard {
   display: flex;
   align-items: center;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 75, 180, 0.315) 0%,
+    rgba(0, 15, 24, 0.13) 35%
+  );
 }
 
 .variantFormName {
