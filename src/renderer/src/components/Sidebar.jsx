@@ -1,11 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IoIosArrowBack } from 'react-icons/io'
 import { AnimatePresence, motion } from 'framer-motion'
 
-export function Sidebar({ data, jsonData, setJsonData }) {
+export function Sidebar({ data, selectedVariants, setSelectedVariants, jsonData, setJsonData }) {
   const { maps, variants } = data
-
+  const savedState = JSON.parse(sessionStorage.getItem('checkboxes')) || {}
   const [menuState, setMenuState] = useState(false)
+  const [checkboxState, setCheckboxState] = useState(savedState)
+
+  useEffect(() => {
+    sessionStorage.setItem('checkboxes', JSON.stringify(checkboxState))
+  }, [checkboxState])
 
   const animVariants = {
     menu: {
@@ -19,22 +24,13 @@ export function Sidebar({ data, jsonData, setJsonData }) {
   }
 
   const handleSelectVariants = (e) => {
-    const { value } = e.target
-    const index = jsonData.Types.findIndex((i) => i.typeName === value)
-    if (index > -1) {
+    const { value, checked } = e.target
+    setCheckboxState({ ...checkboxState, [value]: checked })
+    if (selectedVariants.findIndex((i) => i === value) > -1) {
+      setSelectedVariants(selectedVariants.filter((i) => i !== value))
       setJsonData({ ...jsonData, Types: jsonData.Types.filter((i) => i.typeName !== value) })
     } else {
-      const typeObj = {
-        displayName: value,
-        typeName: value,
-        commands: [
-          'Server.SprintEnabled 0',
-          'Server.UnlimitedSprint 0',
-          'Server.AssassinationEnabled 0'
-        ],
-        SpecificMaps: []
-      }
-      setJsonData({ ...jsonData, Types: [...jsonData.Types, typeObj] })
+      setSelectedVariants([...selectedVariants, value])
     }
   }
 
@@ -67,15 +63,16 @@ export function Sidebar({ data, jsonData, setJsonData }) {
               <div className="sidebarVariants" role="menubar">
                 <h2>GAMETYPES</h2>
                 <ul>
-                  {variants.map((i) => {
+                  {variants.map((i, index) => {
                     return (
-                      <li>
+                      <li key={index}>
                         <label>
                           <input
                             type="checkbox"
                             name={`checkbox_${i}`}
                             className="checkbox"
                             value={i}
+                            checked={!!checkboxState[i]}
                             onChange={handleSelectVariants}
                           />
                           {i}
@@ -88,9 +85,9 @@ export function Sidebar({ data, jsonData, setJsonData }) {
               <div className="sidebarMaps">
                 <h2>MAPS</h2>
                 <ul>
-                  {maps.map((i) => {
+                  {maps.map((i, index) => {
                     return (
-                      <li>
+                      <li key={index}>
                         <p>{i}</p>
                       </li>
                     )

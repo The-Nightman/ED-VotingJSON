@@ -4,23 +4,55 @@ import background from '../src/assets/background.webm'
 
 function App() {
   const [data, setData] = useState({ maps: [], variants: [] })
-  const [jsonData, setJsonData] = useState({ Maps: [], Types: [] })
+  const [selectedVariants, setSelectedVariants] = useState([])
+  const [jsonData, setJsonData] = useState({ Types: [] })
 
-  async function handleFolder() {
+  useEffect(() => {
+    sessionStorage.clear()
+  }, [])
+
+  const handleFolder = async () => {
     const res = await window.electronAPI.openFolder()
     if (Array.isArray(res.maps) && Array.isArray(res.variants)) {
+      setSelectedVariants([])
+      setJsonData({ Types: [] })
       setData(res)
     }
   }
 
-  async function handleSave() {
-    const res = await window.electronAPI.saveFile(jsonData)
+  const handleSave = () => {
+    const selectedMaps = jsonData.Types.flatMap((variant) => variant.SpecificMaps)
+    .filter((obj, index, self) =>
+      index === self.findIndex((t) => (t.mapName === obj.mapName))
+    );
+    const votingJson = { Maps: selectedMaps, ...jsonData }
+    window.electronAPI.saveFile(votingJson)
   }
 
-  useEffect(()=>{
-    const mapObjects = data.maps.map((i) => ({ displayName: i, mapName: i }))
-    setJsonData({ ...jsonData, Maps: mapObjects })
-  },[data])
+  const handleBuildVariant = (formData) => {
+    const index = jsonData.Types.findIndex((i) => i.typeName === formData.typeName)
+    if (index > -1) {
+      const updatedTypes = jsonData.Types.map((item, i) => {
+        if (i !== index) {
+          return item
+        }
+        return formData
+      })
+      setJsonData(({ ...prevState }) => {
+        return {
+          ...prevState,
+          Types: updatedTypes
+        }
+      })
+    } else {
+      setJsonData(({ ...prevState }) => {
+        return {
+          ...prevState,
+          Types: [...prevState.Types, formData]
+        }
+      })
+    }
+  }
 
   return (
     <>
@@ -28,7 +60,13 @@ function App() {
         <source src={background} type="video/webm" />
       </video>
       <h1>ElDewrito Voting JSON Builder</h1>
-      <Sidebar data={data} jsonData={jsonData} setJsonData={setJsonData} />
+      <Sidebar
+        data={data}
+        selectedVariants={selectedVariants}
+        setSelectedVariants={setSelectedVariants}
+        jsonData={jsonData}
+        setJsonData={setJsonData}
+      />
       <div className="container">
         <button id="button" className="openFolder" onClick={handleFolder}>
           Open Folder
@@ -36,14 +74,14 @@ function App() {
         <button id="button" className="saveJson" onClick={handleSave}>
           Save JSON
         </button>
-        {jsonData.Types.map((i, index) => {
+        {selectedVariants.map((i, index) => {
           return (
             <VariantForm
-              name={i.displayName}
+              key={index}
+              name={i}
               maps={data.maps}
               formIndex={index}
-              jsonData={jsonData}
-              setJsonData={setJsonData}
+              addToJson={handleBuildVariant}
             />
           )
         })}
