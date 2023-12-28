@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Sidebar, VariantForm } from './components'
 import background from '../src/assets/background.webm'
 
@@ -6,6 +6,10 @@ function App() {
   const [data, setData] = useState({ maps: [], variants: [] })
   const [selectedVariants, setSelectedVariants] = useState([])
   const [jsonData, setJsonData] = useState({ Types: [] })
+
+  useEffect(() => {
+    sessionStorage.clear()
+  }, [])
 
   const handleFolder = async () => {
     const res = await window.electronAPI.openFolder()
