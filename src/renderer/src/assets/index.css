@@ -6,7 +6,7 @@
 }
 
 * {
-  font-family: "MenuFont", sans-serif;
+  font-family: 'MenuFont', sans-serif;
   color: #a3bbd8;
 }
 
@@ -14,7 +14,8 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-ul, li {
+ul,
+li {
   list-style: none;
 }
 
@@ -27,9 +28,10 @@ h1 {
 .background {
   position: fixed;
   top: 0;
-  right: -150px;
+  right: 0;
   z-index: -1;
   height: 100vh;
+  width: max-content;
 }
 
 button {
@@ -54,7 +56,10 @@ button:active {
   background-color: rgb(83, 34, 12);
 }
 
-input, select, textarea, option{
+input,
+select,
+textarea,
+option {
   color: black;
 }
 
@@ -64,8 +69,8 @@ input, select, textarea, option{
 }
 
 #TeamSize {
-font-size: medium;
-text-align: center;
+  font-size: medium;
+  text-align: center;
 }
 
 .openFolder {
@@ -89,8 +94,12 @@ text-align: center;
   height: 100vh;
   width: 14rem;
   padding: 4rem 0 1rem 1rem;
-  background: rgb(0,76,180);
-  background: linear-gradient(180deg, rgba(0,76,180,0.4009804605435925) 0%, rgba(0,15,24,0.6522409647452731) 77%); 
+  background: rgb(0, 76, 180);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 76, 180, 0.4009804605435925) 0%,
+    rgba(0, 15, 24, 0.6522409647452731) 77%
+  );
 }
 
 .sidebarContainer {
@@ -104,7 +113,7 @@ text-align: center;
 }
 
 .sidebarContainer::-webkit-scrollbar-track {
-background: none;
+  background: none;
 }
 
 .sidebarContainer::-webkit-scrollbar-thumb {
@@ -179,7 +188,8 @@ background: none;
   flex-wrap: wrap;
 }
 
-.serverOverrideSettings input, select {
+.serverOverrideSettings input,
+select {
   margin: 0.5rem 0.5rem 0.5rem 0;
 }
 .serverOverrideSettings label {
@@ -198,4 +208,31 @@ background: none;
 
 fieldset {
   border: 0;
+}
+
+@media (min-aspect-ratio: 1369/770) {
+  .background {
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: auto;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .mapSelection label {
+    width: 25%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .mapSelection label {
+    width: 20%;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .mapSelection label {
+    width: 16.6%;
+  }
 }
