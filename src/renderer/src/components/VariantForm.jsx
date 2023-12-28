@@ -1,8 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IoIosArrowUp } from 'react-icons/io'
 
 export function VariantForm({ name, maps, addToJson }) {
+  const savedState = JSON.parse(sessionStorage.getItem(`checkboxes${name}`)) || {};
+  const [checkboxState, setCheckboxState] = useState(savedState)
+  const [collapsed, setCollapsed] = useState(!false)
   const [teamsEnabled, setTeamsEnabled] = useState(false)
+  const [teamOverridesState, setTeamOverridesState] = useState({number: 0, size: 1})
   const [formData, setFormData] = useState({
     displayName: name,
     typeName: name,
@@ -15,8 +19,13 @@ export function VariantForm({ name, maps, addToJson }) {
   })
   const teamVals = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
+  useEffect(() => {
+    sessionStorage.setItem(`checkboxes${name}`, JSON.stringify(checkboxState));
+  }, [checkboxState]);
+
   const handleOverrides = (e) => {
-    const { value } = e.target
+    const { value, checked } = e.target
+    setCheckboxState({ ...checkboxState, [value]: checked })
     const command = value.slice(0, -1)
     const index = formData.commands.findIndex((i) => i.includes(command))
     const overridesArr = formData.commands.map((item, i) => {
@@ -31,6 +40,7 @@ export function VariantForm({ name, maps, addToJson }) {
   const handleTeamOverrides = (e) => {
     const { value } = e.target
     if (e.target.id === 'TeamsNum') {
+      setTeamOverridesState({ ...teamOverridesState, number: value })
       const teamCount = Number(value)
       if (teamCount > 1 && teamCount <= 8) {
         setTeamsEnabled(true)
@@ -55,6 +65,7 @@ export function VariantForm({ name, maps, addToJson }) {
         setFormData({ ...formData, commands: overridesArr })
       }
     } else if (e.target.id === 'TeamSize') {
+      setTeamOverridesState({ ...teamOverridesState, size: value })
       if (value > 8) {
         e.target.value = 8
       } else if (value < 1) {
@@ -77,11 +88,12 @@ export function VariantForm({ name, maps, addToJson }) {
   }
 
   const handleMaps = (e) => {
-    const { value } = e.target
+    const { value, checked } = e.target
     const mapObj = {
       displayName: value,
       mapName: value
     }
+    setCheckboxState({ ...checkboxState, [value]: checked })
     const index = formData.SpecificMaps.findIndex((i) => i.mapName === value)
     if (index > -1) {
       const mapsArr = formData.SpecificMaps.filter((i) => i.mapName !== value)
@@ -105,12 +117,14 @@ export function VariantForm({ name, maps, addToJson }) {
             className="variantFormCollapseButton"
             title="collapse"
             aria-label="collapse"
+            onClick={() => setCollapsed(!collapsed)}
           />
           <div className="variantFormName">
             <h2>{name}</h2>
             <button type="submit">OK</button>
           </div>
         </div>
+        {collapsed && (
         <div className="variantForm">
           <fieldset>
             <legend>Server Overrides</legend>
@@ -122,6 +136,7 @@ export function VariantForm({ name, maps, addToJson }) {
                   id="SprintEnable"
                   className="checkbox"
                   value={'Server.SprintEnabled 1'}
+                  checked={!!checkboxState['Server.SprintEnabled 1']}
                   onChange={handleOverrides}
                 />
                 Toggle Sprint
@@ -133,6 +148,7 @@ export function VariantForm({ name, maps, addToJson }) {
                   id="SprintUnlim"
                   className="checkbox"
                   value={'Server.UnlimitedSprint 1'}
+                  checked={!!checkboxState['Server.UnlimitedSprint 1']}
                   onChange={handleOverrides}
                 />
                 Toggle Unlimited Sprint
@@ -144,13 +160,14 @@ export function VariantForm({ name, maps, addToJson }) {
                   id="Assass"
                   className="checkbox"
                   value={'Server.AssassinationEnabled 1'}
+                  checked={!!checkboxState['Server.AssassinationEnabled 1']}
                   onChange={handleOverrides}
                 />
                 Toggle Assassinations
               </label>
               <label>
                 Number of Teams
-                <select name="Number of Teams" id="TeamsNum" onChange={handleTeamOverrides}>
+                <select name="Number of Teams" id="TeamsNum" value={teamOverridesState.number} onChange={handleTeamOverrides}>
                   {teamVals.map((i, index) => {
                     return (
                       <option key={index} value={i}>
@@ -170,6 +187,7 @@ export function VariantForm({ name, maps, addToJson }) {
                   placeholder="1"
                   min={1}
                   max={8}
+                  value={teamOverridesState.size}
                   onChange={handleTeamOverrides}
                 />
               </label>
@@ -187,6 +205,7 @@ export function VariantForm({ name, maps, addToJson }) {
                       name={i}
                       id={i}
                       value={i}
+                      checked={!!checkboxState[i]}
                       onChange={handleMaps}
                     />
                     {i}
@@ -196,6 +215,7 @@ export function VariantForm({ name, maps, addToJson }) {
             </div>
           </fieldset>
         </div>
+        )}
       </form>
     </>
   )
